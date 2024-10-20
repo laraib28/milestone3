@@ -1,58 +1,37 @@
-// script.ts
+const formInput = document.getElementById('resume-form') as HTMLFormElement;
+ const resumeDisplayElement = document.getElementById('resume-display') as HTMLDivElement;
 
-// Function to handle form submission and generate resume
-function generateResume(event: Event): void {
-    event.preventDefault(); // Prevent the default form submission behavior
+ formInput.addEventListener('submit',(event: Event)=>{
+    event.preventDefault ();
+ })
 
-    // Fetch form elements
-    const nameInput = document.getElementById('name') as HTMLInputElement | null;
-    const emailInput = document.getElementById('email') as HTMLInputElement | null;
-    const phoneInput = document.getElementById('phone') as HTMLInputElement | null;
-    const skillsInput = document.getElementById('skills') as HTMLInputElement | null;
-    const educationInput = document.getElementById('education') as HTMLTextAreaElement | null;
-    const experienceInput = document.getElementById('experience') as HTMLTextAreaElement | null;
+        // console.log("Form submitted!");
 
-    // Validate inputs and extract values
-    const name = nameInput?.value || '';
-    const email = emailInput?.value || '';
-    const phone = phoneInput?.value || '';
-    const skills = skillsInput?.value.split(',').map(skill => skill.trim()) || [];
-    const education = educationInput?.value || '';
-    const experience = experienceInput?.value || '';
+        // Fetch form values
+        const nameInput = (document.getElementById('name') as HTMLInputElement).value;
+        const email = (document.getElementById('email') as HTMLInputElement).value;
+        const phone = (document.getElementById('phone') as HTMLInputElement).value;
+        const skills = (document.getElementById('skills') as HTMLInputElement).value;
+        const education = (document.getElementById('education') as HTMLTextAreaElement).value;
+        const experience = (document.getElementById('experience') as HTMLTextAreaElement).value;
 
-    // Generate resume content using the user input
-    const resumeContent = `
-        <h3>${name}</h3>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <h4>Skills</h4>
-        <ul>
-            ${skills.map(skill => `<li>${skill}</li>`).join('')}
-        </ul>
-        <h4>Education</h4>
-        <p>${education}</p>
-        <h4>Work Experience</h4>
-        <p>${experience}</p>
-    `;
+        // Generate resume HTML
+        const resumeHTML = `
+            <h3>${nameInput}</h3>
+            <p>Email: ${email}</p>
+            <p>Phone: ${phone}</p>
+            <h3>Skills</h3>
+            <p>${skills}</p>
+            <h3>Education</h3>
+            <p>${education}</p>
+            <h3>Experience</h3>
+            <p>${experience}</p>
+        `;
 
-    // Display the generated resume
-    const resumeSection = document.getElementById('resume-section');
-    const resumeContentDiv = document.getElementById('resume-content');
+        // Display resume
+       if(resumeDisplayElement){
+        resumeDisplayElement.innerHTML = resumeHTML;
+       }else{
+        console.error('Rhe resume diplay')
+       }
 
-    if (resumeSection && resumeContentDiv) {
-        resumeContentDiv.innerHTML = resumeContent;
-        resumeSection.classList.remove('hidden'); // Show the resume section
-    } else {
-        console.error('Resume section or content div not found.');
-    }
-}
-
-// Attach the event listener to the form after the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('resume-form') as HTMLFormElement | null;
-    if (form) {
-        form.addEventListener('submit', generateResume); // Add submit event listener to the form
-    } else {
-        console.error('Resume form not found.');
-    }
-});
